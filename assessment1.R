@@ -278,17 +278,19 @@ do.call(rbind, VarTest)[,c(1,3,5)]
 
 # If the variances is not equal then use Welch's test
 
-# Wilcoxon Test - normality assumption was violated
+# Wilcoxon Test was used as normality assumption was violated
 
 wilcox <- lapply(df[,c("AGE","PAY_AMT1","PAY_AMT2","PAY_AMT3","PAY_AMT4","PAY_AMT5","PAY_AMT6")], function(x) wilcox.test(x ~ df$default_payment)) 
 
 do.call(rbind,wilcox)[,c(1,3)]
 
-# Welch t-test - Homogeneity of variance was violated
+
+# Welch t-test was used as Homogeneity of variance was violated
 
 welch <- lapply(df[,c("AGE","PAY_AMT1","PAY_AMT2","PAY_AMT3","PAY_AMT4","PAY_AMT5","PAY_AMT6")], function(x) t.test(x ~ df$default_payment, var.equal = FALSE))
 
 do.call(rbind,welch)[,c(1,3)]
+
 
 # Multiple Logistic Regression
 
@@ -380,6 +382,8 @@ vif(model)
 
 # Cook's Distance was used to find whether outliers are presented
 plot(model, which = 4, id.n = 10)
+                
+# Based on the Cook's Distance plot, multiple outliers were found so the assumption was violated.
 
 # Assumption 6: There is a linear relationship between explanatory variables and the logit of the response variable
 
